@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import style from './css/main.styl';
 
 class App extends React.Component {
   render() {
@@ -12,7 +13,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-// var React = require('react');
-
-// React.render('hello', document.getElementById('app'));

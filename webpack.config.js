@@ -1,9 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 // The src directory files are built into the build directory
 const SRC_DIR = path.resolve(__dirname, 'src');
 const BUILD_DIR = path.resolve(__dirname, 'build');
+
+// Plugins
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: './src/index.html',
+  filename: './index.html'
+});
 
 module.exports = {
   entry: SRC_DIR + '/index.jsx',
@@ -15,23 +22,14 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?/,
-        include: SRC_DIR,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.styl$/,
+        use: ['style-loader', 'css-loader', 'stylus-loader']
       }
     ]
-  }
+  },
+  plugins: [htmlPlugin]
 };
-
-	// module: {
-	// 	rules: [
- //      {
- //        test: /\.(js|jsx)$/,
- //        exclude: /node_modules/,
- //        use: {
- //          loader: 'babel-loader'
- //        }
- //      }
- //    ]
-	// }
-//};
