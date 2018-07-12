@@ -1,2 +1,29 @@
 #app
-  background-color: purple
+  #flash-facts
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    
+    #options
+      display: flex
+      overflow: hidden
+      justify-content: center
+      align-items: center
+      height: 100%
+      
+      .option
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 400px
+        height: 400px
+        background-color: pink
+        cursor: pointer
+        border: 1px solid grey
+        
+        .title
+          font-size: 40px
+        
+        &:hover
+          opacity: 0.7
