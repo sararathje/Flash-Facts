@@ -8,7 +8,7 @@ Grade 1 Facts
 ### Depdencies
 1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install/#windows-stable)
 2. Install [Webpack](https://webpack.js.org/guides/installation/)
-3. Install ```react``` and ```react-dom```
+3. Install ```react``` and ```react-dom```  
    ``` yarn add react react-dom```  
 4. Install ```babel-core```, ```babel-loader```, ```babel-preset-env```, and 
    ```babel-preset-react``` as depdendencies  
