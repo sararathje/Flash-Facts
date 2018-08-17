@@ -19,17 +19,13 @@ class SightWords extends React.Component {
     this.state = {
       words: []
     };
-
-    // this.showGradeSightWords = this.showGradeSightWords.bind(this);
   }
 
   // Eventually this should show the grade words... I think I'm having trouble
   // with some 'this' issues. A problem for another day's Sara
-  showGradeSightWords() {
-    this.setState((prevState, props) => {
-      return {
-        words: gradeWords 
-      };
+  showGradeSightWords(grade) {
+    this.setState({
+        words: grade.words
     });
   }
 
@@ -37,9 +33,9 @@ class SightWords extends React.Component {
     let self = this;
     let gradeWords = [];
 
-    _.forEach(self.state.words, function(word) {
+    _.forEach(self.state.words, function(word, index) {
       gradeWords.push(
-        <div className="word">{word}</div>
+        <div key={index} className="word">{word}</div>
       );
     });
 
@@ -49,9 +45,10 @@ class SightWords extends React.Component {
   renderGradesSelection() {
     let grades = [];
 
-    _.forEach(SIGHT_WORDS.sightWords, function(grade) {
+    _.forEach(SIGHT_WORDS.sightWords, (grade, index) => {
+      const showGradeWords = () => this.showGradeSightWords(grade);
       grades.push(
-        <div className="grade">
+        <div key={index} className="grade" onClick={showGradeWords}>
           {grade.name}
         </div>
       );
