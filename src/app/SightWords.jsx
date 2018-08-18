@@ -62,7 +62,8 @@ class SightWords extends React.Component {
 
       return {
         shuffle: !prevState.shuffle,
-        words: updatedWords
+        words: updatedWords,
+        wordIndex: 0
       }
     });
   }
@@ -73,7 +74,8 @@ class SightWords extends React.Component {
 
     this.setState({
       started: true,
-      words: updatedWords
+      words: updatedWords,
+      wordIndex: 0
     });
   }
 
