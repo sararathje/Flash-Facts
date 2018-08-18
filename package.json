@@ -16,6 +16,7 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.5.0",
+    "jest-html-reporter": "^2.4.2",
     "sinon": "^6.1.5",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
@@ -32,12 +33,9 @@
     "style-loader": "^0.21.0",
     "svg-inline-react": "^3.1.0"
   },
-  "jest": {
-     "setupTestFrameworkScriptFile": "<rootDir>/test/setupTest.js"
-  },
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest --color"
   }
 }
