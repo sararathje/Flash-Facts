@@ -1,54 +1,130 @@
 import React from 'react';
+// Sara: Currently this isn't working... needs more investigation
 import InlineSVG from 'svg-inline-react';
 
 const _ = require('lodash');
-const SIGHT_WORDS = require('./sightWordsConstants');
+const SHUFFLE = require('knuth-shuffle').knuthShuffle;
 
 class SightWords extends React.Component {
   propTypes: {
-    onSelectBackOption: React.PropTypes.func
+    onSelectBackOption: React.PropTypes.func,
+    wordList: React.PropTypes.object
   };
 
   static defaultProps: {
-    onSelectBackOption: () => ({})
+    onSelectBackOption: () => ({}),
+    wordList: {}
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      words: []
+      selectedGrade: '',
+      started: false,
+      shuffle: false,
+      words: [],
+      wordIndex: 0
     };
   }
 
-  // Eventually this should show the grade words... I think I'm having trouble
-  // with some 'this' issues. A problem for another day's Sara
+  getGradeClassNames(grade) {
+    return this.state.selectedGrade.name === grade.name ? `grade selected` : `grade`;
+  }
+
+  getShuffledWords() {
+    return SHUFFLE(this.state.selectedGrade.words.slice(0));
+  }
+
   showGradeSightWords(grade) {
     this.setState({
-        words: grade.words
+      selectedGrade: grade,
+      started: false,
+      shuffle: false,
+      wordIndex: 0
     });
   }
 
-  renderWords() {
-    let self = this;
-    let gradeWords = [];
-
-    _.forEach(self.state.words, function(word, index) {
-      gradeWords.push(
-        <div key={index} className="word">{word}</div>
-      );
+  displayNextWord() {
+    this.setState((prevState, props) => {
+      return {wordIndex: prevState.wordIndex + 1};
     });
+  }
 
-    return gradeWords;
+  // TODO: Sara: The current way that you switch between shuffled words and ordered words
+  // is kinda poo. Update the way that you do this so that you don't have gross duplication
+  toggleShuffle() {
+    this.setState((prevState, props) => {
+      // If the previous shuffle state was false, then we want to update the words to be
+      // shuffled.
+      const updatedWords = 
+        prevState.shuffle === false ? this.getShuffledWords() : prevState.selectedGrade.words;
+
+      return {
+        shuffle: !prevState.shuffle,
+        words: updatedWords
+      }
+    });
+  }
+
+  updateStarted() {
+    const updatedWords = 
+      this.state.shuffle === true ? this.getShuffledWords() : this.state.selectedGrade.words;
+
+    this.setState({
+      started: true,
+      words: updatedWords
+    });
+  }
+
+  getShuffleClassNames() {
+    return this.state.shuffle === true ? `shuffle-button enabled` : `shuffle-button`;
+  }
+
+  getWord() {
+    return this.state.words[this.state.wordIndex];
+  }
+
+  renderStart() {
+    return (
+      <div className="start-screen">
+        <div className="start-button" onClick={() => {this.updateStarted()}}>Start</div>
+        <div className={this.getShuffleClassNames()} onClick={() => {this.toggleShuffle()}}>Shuffle</div>
+      </div>
+    );
+  }
+
+  renderWord() {
+    return (
+      <div className="grade-words">
+        <div className="word-wrapper">
+          <p className="word">{this.getWord()}</p>
+        </div>
+        <div className={this.getShuffleClassNames()} onClick={() => {this.toggleShuffle()}}>Shuffle</div>
+        <div className="next-button" onClick={() => {this.displayNextWord()}}>Next</div>
+      </div>
+    );
+  }
+
+  // Sara: this method is too long, but you can fix that later
+  // Should also rename, but can also deal with that later
+  renderWords() {
+    if (!_.isEmpty(this.state.selectedGrade)) {
+      return this.state.started === true ? this.renderWord() : this.renderStart();
+    }
+
+    // Don't render anything if no grade is selected
+    return false;
   }
 
   renderGradesSelection() {
     let grades = [];
 
-    _.forEach(SIGHT_WORDS.sightWords, (grade, index) => {
+    _.forEach(this.props.wordList, (grade, index) => {
       const showGradeWords = () => this.showGradeSightWords(grade);
+
       grades.push(
-        <div key={index} className="grade" onClick={showGradeWords}>
+        <div key={index} className={this.getGradeClassNames(grade)} onClick={showGradeWords}>
           {grade.name}
         </div>
       );
@@ -68,7 +144,7 @@ class SightWords extends React.Component {
         </div>
         <div className="body">
           <div className="grades-selection">{this.renderGradesSelection()}</div>
-          <div className="grade-words">{this.renderWords()}</div>
+          {this.renderWords()}
         </div>
       </div>
     );

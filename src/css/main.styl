@@ -47,6 +47,7 @@
         left: 0
         width: 40px
         height: 20px
+        user-select: none
         
         &:hover
           background-color: pink
@@ -63,12 +64,10 @@
         // Sara: This will change once we do grid. But for now...
         display: flex
         border: 1px solid grey
-        width: 100%
-        height: 100%
         
         .grades-selection
           display: flex
-          min-width: 200px
+          flex: 1 1 auto
           flex-direction: column
           overflow-y: auto
           border: 1px solid grey
@@ -78,6 +77,72 @@
             padding: 10px
             border: 1px solid grey
             cursor: pointer
+            user-select: none
+            
+            &.selected
+              background-color: pink
             
             &:hover
+              background-color: pink
+        
+        // Sara: we need to make start screen and grade grade-words
+        // the same thing... can do later
+        .start-screen
+          position: relative
+          flex: 2 0 auto
+          
+          .start-button, .shuffle-button
+            border: 1px solid grey
+            padding: 5px
+            text-align: center
+            cursor: pointer
+            width: 50px
+            height: 20px
+            user-select: none
+            
+            &:hover
+              background-color: pink
+            
+          .start-button
+            position: absolute
+            top: 0
+            right: 0
+            bottom: 0
+            left: 0
+            margin: auto
+            
+          .shuffle-button
+            &.enabled
+              background-color: pink
+        
+        // Sara: again, we're going to experiment with grid once
+        // logic is in
+        .grade-words
+          position: relative
+          flex: 2 0 auto
+          padding: 10px
+          
+          .word-wrapper
+            display: flex
+            flex-direction: column
+            justify-conent: center
+            align-items: center
+            flex: 1 1 auto
+            text-align: center
+            font-weight: 300
+            font-size: 40px
+          
+          .next-button, .shuffle-button
+            border: 1px solid grey
+            padding: 5px
+            text-align: center
+            cursor: pointer
+            user-select: none
+            bottom: 0
+
+            &:hover
+              background-color: pink
+          
+          .shuffle-button
+            &.enabled
               background-color: pink

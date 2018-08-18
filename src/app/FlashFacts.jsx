@@ -3,9 +3,12 @@ import Option from './Option.jsx';
 import MathFacts from './MathFacts.jsx';
 import SightWords from './SightWords.jsx';
 
+const SIGHT_WORDS = require('./sightWordsConstants');
+
 class FlashFacts extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       showOptions: true,
       mathFactsSelected: false,
@@ -57,7 +60,7 @@ class FlashFacts extends React.Component {
       );
     } else if (this.state.sightWordsSelected) {
       return (
-        <SightWords onSelectBackOption={this.handleSelectBack} />
+        <SightWords onSelectBackOption={this.handleSelectBack} wordList={SIGHT_WORDS.sightWords} />
       );
     }
 
