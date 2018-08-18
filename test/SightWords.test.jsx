@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { mount } from 'enzyme';
 import SightWords from '../src/app/SightWords';
 import sinon from 'sinon';
 
@@ -29,12 +28,23 @@ describe('SightWords', () => {
 
   it('should render a list of grades', () => {
     const component = shallow(
-      <SightWords wordList={mockSightWords} />
+      <SightWords />
     );
 
-    const gradeList = component.find('grades-selection');
+    const gradeList = component.find('.grades-selection');
 
-    expect(gradeList).toBeDefined();
+    expect(gradeList.exists()).toBe(true);
+  });
+
+  it('should go to a start screen when a grade is selected', () => {
+    const component = shallow(
+      <SightWords />
+    );
+
+    // select a grade
+    component.find('.grades-selection').find('.grade').first().simulate('click');
+
+    expect(component.find('.start-screen').exists()).toBe(true);
   });
 });
 

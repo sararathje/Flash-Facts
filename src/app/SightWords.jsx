@@ -1,19 +1,18 @@
 import React from 'react';
 // Sara: Currently this isn't working... needs more investigation
 import InlineSVG from 'svg-inline-react';
+import { sightWords } from './sightWordsConstants';
 
 const _ = require('lodash');
 const SHUFFLE = require('knuth-shuffle').knuthShuffle;
 
 class SightWords extends React.Component {
   propTypes: {
-    onSelectBackOption: React.PropTypes.func,
-    wordList: React.PropTypes.object
+    onSelectBackOption: React.PropTypes.func
   };
 
   static defaultProps: {
-    onSelectBackOption: () => ({}),
-    wordList: {}
+    onSelectBackOption: () => ({})
   };
 
   constructor(props) {
@@ -57,7 +56,7 @@ class SightWords extends React.Component {
     this.setState((prevState, props) => {
       // If the previous shuffle state was false, then we want to update the words to be
       // shuffled.
-      const updatedWords = 
+      const updatedWords =
         prevState.shuffle === false ? this.getShuffledWords() : prevState.selectedGrade.words;
 
       return {
@@ -68,7 +67,7 @@ class SightWords extends React.Component {
   }
 
   updateStarted() {
-    const updatedWords = 
+    const updatedWords =
       this.state.shuffle === true ? this.getShuffledWords() : this.state.selectedGrade.words;
 
     this.setState({
@@ -120,7 +119,7 @@ class SightWords extends React.Component {
   renderGradesSelection() {
     let grades = [];
 
-    _.forEach(this.props.wordList, (grade, index) => {
+    _.forEach(sightWords, (grade, index) => {
       const showGradeWords = () => this.showGradeSightWords(grade);
 
       grades.push(
