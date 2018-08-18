@@ -3,4 +3,5 @@ module.exports = {
   "setupTestFrameworkScriptFile": "<rootDir>/test/setupTest.js",
   collectCoverage: true,
   collectCoverageFrom: ['src/app/**/*.{js,jsx}'],
+  coverageReporters: ['lcov'],
 };
