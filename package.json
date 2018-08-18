@@ -8,10 +8,15 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-jest": "^23.4.2",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.4.4",
+    "enzyme-adapter-react-16": "^1.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.5.0",
+    "sinon": "^6.1.5",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "svg-inline-loader": "^0.8.0",
@@ -27,8 +32,12 @@
     "style-loader": "^0.21.0",
     "svg-inline-react": "^3.1.0"
   },
+  "jest": {
+     "setupTestFrameworkScriptFile": "<rootDir>/test/setupTest.js"
+  },
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "jest"
   }
 }
