@@ -1,11 +1,15 @@
 import React from 'react';
+import _ from 'lodash';
 // Sara: Currently this isn't working... needs more investigation
 import InlineSVG from 'svg-inline-react';
-import { sightWords } from './sightWordsConstants';
 
-const _ = require('lodash');
+import { sightWords } from './sightWordsConstants';
+import ShuffleOption from './ShuffleOption.jsx';
+
 const SHUFFLE = require('knuth-shuffle').knuthShuffle;
 
+// SARA: TODO: Clean up this class... it's way too long and can probably be broken up so that
+// it's not as confusing
 class SightWords extends React.Component {
   propTypes: {
     onSelectBackOption: React.PropTypes.func
@@ -35,7 +39,11 @@ class SightWords extends React.Component {
     return SHUFFLE(this.state.selectedGrade.words.slice(0));
   }
 
-  showGradeSightWords(grade) {
+  getWords(shouldShuffle) {
+    return shouldShuffle === true ? this.getShuffledWords() : this.state.selectedGrade.words;
+  }
+
+  updateInteractionPanel(grade) {
     this.setState({
       selectedGrade: grade,
       started: false,
@@ -45,36 +53,34 @@ class SightWords extends React.Component {
   }
 
   displayNextWord() {
-    this.setState((prevState, props) => {
-      return {wordIndex: prevState.wordIndex + 1};
-    });
+    // Check to see if the end of the list has been reached
+    if (this.state.wordIndex === this.state.words.length - 1) {
+      this.renderRestart();
+    } else {
+      this.setState((prevState, props) => {
+        return {wordIndex: prevState.wordIndex + 1};
+      });
+    }
   }
 
-  // TODO: Sara: The current way that you switch between shuffled words and ordered words
-  // is kinda poo. Update the way that you do this so that you don't have gross duplication
   toggleShuffle() {
     this.setState((prevState, props) => {
-      // If the previous shuffle state was false, then we want to update the words to be
-      // shuffled.
-      const updatedWords =
-        prevState.shuffle === false ? this.getShuffledWords() : prevState.selectedGrade.words;
+      // Send the updated toggle state to get the corresponding words
+      const updatedWords = this.getWords(!prevState.shuffle);
 
       return {
         shuffle: !prevState.shuffle,
-        words: updatedWords,
-        wordIndex: 0
+        words: updatedWords
       }
     });
   }
 
   updateStarted() {
-    const updatedWords =
-      this.state.shuffle === true ? this.getShuffledWords() : this.state.selectedGrade.words;
+    const updatedWords = this.getWords(this.state.shuffle);
 
     this.setState({
       started: true,
-      words: updatedWords,
-      wordIndex: 0
+      words: updatedWords
     });
   }
 
@@ -86,46 +92,55 @@ class SightWords extends React.Component {
     return this.state.words[this.state.wordIndex];
   }
 
-  renderStart() {
+  // TODO: Sara: This needs to be changed, but for now it's just a way for me to restart.
+  renderRestart() {
+    const message = 'This is the end of the sight words list! Would you like to restart?';
+
+    if (confirm(message) === true) {
+      this.updateInteractionPanel(this.state.selectedGrade);
+    }
+  }
+  renderStartMode() {
     return (
       <div className="start-screen">
         <div className="start-button" onClick={() => {this.updateStarted()}}>Start</div>
-        <div className={this.getShuffleClassNames()} onClick={() => {this.toggleShuffle()}}>Shuffle</div>
+        <ShuffleOption getClassNames={this.getShuffleClassNames()}
+          onSelectToggleOption={() => {this.toggleShuffle()}} />
       </div>
     );
   }
 
-  renderWord() {
+  renderWordMode() {
     return (
       <div className="grade-words">
         <div className="word-wrapper">
           <p className="word">{this.getWord()}</p>
         </div>
-        <div className={this.getShuffleClassNames()} onClick={() => {this.toggleShuffle()}}>Shuffle</div>
+        <ShuffleOption getClassNames={this.getShuffleClassNames()}
+          onSelectToggleOption={() => {this.toggleShuffle()}} />
         <div className="next-button" onClick={() => {this.displayNextWord()}}>Next</div>
       </div>
     );
   }
 
-  // Sara: this method is too long, but you can fix that later
-  // Should also rename, but can also deal with that later
-  renderWords() {
+  renderInteractionPanel() {
     if (!_.isEmpty(this.state.selectedGrade)) {
-      return this.state.started === true ? this.renderWord() : this.renderStart();
+      return this.state.started === true ? this.renderWordMode() : this.renderStartMode();
     }
 
     // Don't render anything if no grade is selected
     return false;
   }
 
-  renderGradesSelection() {
+  renderGradeSelectionOptions() {
     let grades = [];
 
+    // Render the available list of grades to select from
     _.forEach(sightWords, (grade, index) => {
-      const showGradeWords = () => this.showGradeSightWords(grade);
-
       grades.push(
-        <div key={index} className={this.getGradeClassNames(grade)} onClick={showGradeWords}>
+        <div key={index}
+          className={this.getGradeClassNames(grade)}
+          onClick={() => {this.updateInteractionPanel(grade)}}>
           {grade.name}
         </div>
       );
@@ -144,8 +159,8 @@ class SightWords extends React.Component {
           <div className="header-title">SIGHT WORDS</div>
         </div>
         <div className="body">
-          <div className="grades-selection">{this.renderGradesSelection()}</div>
-          {this.renderWords()}
+          <div className="grades-selection">{this.renderGradeSelectionOptions()}</div>
+          {this.renderInteractionPanel()}
         </div>
       </div>
     );
