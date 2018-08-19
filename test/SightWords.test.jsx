@@ -10,7 +10,7 @@ describe('SightWords', () => {
       component.find('.grades-selection').find('.grade').first().simulate('click');
     };
 
-    const startGame = () => component.find('.start-button').simulate('click');
+    const selectStart = () => component.find('.start-button').simulate('click');
 
   beforeEach(() => {
     component = shallow(<SightWords />);
@@ -43,12 +43,12 @@ describe('SightWords', () => {
     expect(component.find('.start-screen').exists()).toBe(true);
   });
 
-  it('should remember shuffle state when starting a game', () => {
+  it('should remember shuffle state on start', () => {
     component = shallow(<SightWords />);
     selectAGrade();
     component.find('.shuffle-button').simulate('click');
     expect(component.find('.shuffle-button').hasClass('enabled')).toBe(true);
-    startGame();
+    selectStart();
     expect(component.find('.shuffle-button').hasClass('enabled')).toBe(true);
   });
 
@@ -56,7 +56,7 @@ describe('SightWords', () => {
     beforeEach(() => {
       component = shallow(<SightWords />);
       selectAGrade();
-      startGame();
+      selectStart();
     });
 
     it('should enable shuffling when shuffle is clicked', () => {
@@ -65,7 +65,7 @@ describe('SightWords', () => {
       expect(component.find('.shuffle-button').hasClass('enabled')).toBe(true);
     });
 
-    it('should display a a new letter until there are no more available', () => {
+    it('should display a new letter until there are no more available', () => {
       const nextButton = component.find('.next-button');
       const goToNextLetter = () => nextButton.simulate('click');
 
