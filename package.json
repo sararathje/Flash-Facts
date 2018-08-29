@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
+    "start:extension": "webpack --watch",
     "build": "webpack --mode production",
     "test": "jest --color",
     "test:watch": "jest --watch"
