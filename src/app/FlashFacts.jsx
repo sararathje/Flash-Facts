@@ -68,8 +68,12 @@ class FlashFacts extends React.Component {
   renderOptionList() {
     return (
       <div id="options">
-        <Option type="Math Facts" onSelectOption={this.handleClickMathFacts}/>
-        <Option type="Sight Words" onSelectOption={this.handleClickSightWords} />
+        <Option type="Math Facts"
+          optionClassName="math-option"
+          onSelectOption={this.handleClickMathFacts} />
+        <Option type="Sight Words"
+          optionClassName="words-option"
+          onSelectOption={this.handleClickSightWords} />
       </div>
     );
   }
