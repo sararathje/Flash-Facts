@@ -1,0 +1,72 @@
+@import "./colour_scheme.styl"
+
+#sight-words
+  display: grid
+  width: 100%
+  height: 100%
+  padding: 80px
+  box-sizing: border-box
+  align-items: center
+  justify-items: center
+  grid-template-columns: auto 1fr
+  grid-template-rows: auto 1fr
+  grid-gap: 20px
+
+  .header
+    display: flex
+    justify-self: stretch
+    grid-column: 1 / -1
+
+    .header-title
+      flex: 1 0 auto
+      font-size: 50px
+      font-weight: bold
+      text-shadow: 3px 3px 1px $white-ish-colour
+      color: $text-colour
+      user-select: none
+      text-align: center
+    
+    .back-button
+      align-self: center
+
+  .body
+    display: grid
+    grid-column: 1 / -1
+    justify-self: stretch
+    align-self: stretch
+    margin-top: 25px
+
+    .grades-selection
+      display: grid
+      width: 100%
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+      grid-auto-rows: 1fr
+      grid-gap: 10px
+      text-align: center
+      justify-items: center
+      // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4)
+      // background-color: $white-ish-colour
+    
+      .grade
+        display: grid
+        box-sizing: border-box
+        width: 150px
+        height: 150px
+        padding: 10px
+        align-items: center
+        border: 1px solid $text-colour
+        background-color: $white-ish-colour
+        border-radius: 50%
+        cursor: pointer
+        user-select: none
+            
+        // &.selected
+        //   background-color: $pink-colour
+            
+        &:hover
+          transform: translate(-2px, -2px)
+          -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4)
+          box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4)
+      
+    .start-screen, .grade-words
+      background-color: $white-ish-colour

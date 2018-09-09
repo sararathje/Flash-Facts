@@ -2,7 +2,7 @@ module.exports = {
   // Cole's Recommendation: Provide a description for the words
 	'sightWords': {
     'pre-k': {
-      'name': 'Pre-School',
+      'name': 'Pre-K',
       'words': [
         'a',
         'and',

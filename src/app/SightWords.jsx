@@ -5,6 +5,7 @@ import InlineSVG from 'svg-inline-react';
 
 import { sightWords } from './sightWordsConstants';
 import ShuffleOption from './ShuffleOption.jsx';
+// import SightWordsInteractionPanel from './SightWordsInteractionPanel.jsx';
 
 const SHUFFLE = require('knuth-shuffle').knuthShuffle;
 
@@ -23,6 +24,7 @@ class SightWords extends React.Component {
     super(props);
 
     this.state = {
+      shouldShowGradeSelection: true,
       selectedGrade: '',
       started: false,
       shuffle: false,
@@ -45,6 +47,7 @@ class SightWords extends React.Component {
 
   updateInteractionPanel(grade) {
     this.setState({
+      shouldShowGradeSelection: false,
       selectedGrade: grade,
       started: false,
       shuffle: false,
@@ -100,6 +103,7 @@ class SightWords extends React.Component {
       this.updateInteractionPanel(this.state.selectedGrade);
     }
   }
+
   renderStartMode() {
     return (
       <div className="start-screen">
@@ -132,6 +136,16 @@ class SightWords extends React.Component {
     return false;
   }
 
+  renderGradeSelection() {
+    if (this.state.shouldShowGradeSelection === true) {
+      return (
+        <div className="grades-selection">{this.renderGradeSelectionOptions()}</div>
+      );
+    }
+
+    return false;
+  }
+
   renderGradeSelectionOptions() {
     let grades = [];
 
@@ -149,17 +163,30 @@ class SightWords extends React.Component {
     return grades;
   }
 
+  handleSelectBackOption() {
+    // If the current screen is the grades selection, navigate back to main page
+    // Otherwise, if the interaction panel is being shown, show the grades selection
+    if (this.state.shouldShowGradeSelection === true) {
+      this.props.onSelectBackOption();
+    } else {
+      this.setState({
+        shouldShowGradeSelection: true,
+        selectedGrade: ''
+      });
+    }
+  }
+
   render() {
     return (
       <div id="sight-words">
-        <div className="back-button" onClick={this.props.onSelectBackOption}>
-            Back
-          </div>
         <div className="header">
+          <div className="back-button button" onClick={() => {this.handleSelectBackOption()}}>
+              Back
+          </div>
           <div className="header-title">SIGHT WORDS</div>
         </div>
         <div className="body">
-          <div className="grades-selection">{this.renderGradeSelectionOptions()}</div>
+          {this.renderGradeSelection()}
           {this.renderInteractionPanel()}
         </div>
       </div>
