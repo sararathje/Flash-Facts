@@ -31,8 +31,9 @@
 
   .body
     display: grid
+    width: 850px
     grid-column: 1 / -1
-    justify-self: stretch
+    justify-self: center
     align-self: stretch
     margin-top: 25px
 
@@ -41,7 +42,7 @@
       width: 100%
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
       grid-auto-rows: 1fr
-      grid-gap: 10px
+      grid-gap: 20px
       text-align: center
       justify-items: center
       // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4)
@@ -70,3 +71,64 @@
       
     .start-screen, .grade-words
       background-color: $white-ish-colour
+    
+    .start-screen
+      display: grid
+      padding: 20px
+      box-sizing: border-box
+      grid-template-columns: 100px 1fr 100px
+      grid-template-rows: auto 1fr
+      
+      .start-button
+        font-size: 80px
+        font-weight: bold
+        grid-column: 2
+        grid-row: 2
+        align-self: center
+        justify-self: center
+        height: 150px
+        padding: 20px
+      
+      .shuffle-button
+        grid-column: 1
+        grid-row: 1
+    
+    .grade-words
+      display: grid
+      box-sizing: border-box
+      padding: 50px 20px
+      grid-template-columns: auto auto 1fr auto auto
+      grid-template-rows: auto 1fr
+      grid-column-gap: 30px
+      
+      .word-wrapper
+        grid-column: 3
+        grid-row: 2
+        font-size: 120px
+        font-weight: bold
+        text-shadow: 3px 3px 1px $white-ish-colour
+        color: $text-colour
+        user-select: none
+        text-align: center
+        align-self: center
+        justify-self: center
+      
+      .button
+        align-self: center
+        justify-self: center
+      
+      .shuffle-button
+        grid-column: 1
+        grid-row: 1
+      
+      .restart-button
+        grid-column: 5
+        grid-row: 1
+      
+      .previous-button
+        grid-column: 2
+        grid-row: 2
+      
+      .next-button
+        grid-column: 4
+        grid-row: 2

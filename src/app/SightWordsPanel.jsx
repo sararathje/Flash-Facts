@@ -1,5 +1,4 @@
 import React from 'react';
-import { sightWords } from './sightWordsConstants';
 import ShuffleOption from './ShuffleOption.jsx';
 
 const SHUFFLE = require('knuth-shuffle').knuthShuffle;
@@ -39,10 +38,18 @@ class SightWordsPanel extends React.Component {
   displayNextWord() {
     // Check to see if the end of the list has been reached
     if (this.state.wordIndex === this.state.words.length - 1) {
-      this.renderRestart();
+      this.renderRestartMessage();
     } else {
       this.setState((prevState, props) => {
         return {wordIndex: prevState.wordIndex + 1};
+      });
+    }
+  }
+
+  displayPreviousWord() {
+    if (this.state.wordIndex > 0) {
+      this.setState((prevState, props) => {
+        return {wordIndex: prevState.wordIndex - 1};
       });
     }
   }
@@ -65,7 +72,7 @@ class SightWordsPanel extends React.Component {
   }
 
   getShuffleClassNames() {
-    return this.state.shuffle === true ? `shuffle-button enabled` : `shuffle-button`;
+    return this.state.shuffle === true ? `shuffle-button button enabled` : `shuffle-button button`;
   }
 
   getWords(shouldShuffle) {
@@ -81,7 +88,7 @@ class SightWordsPanel extends React.Component {
   }
 
    // TODO: Sara: This needs to be changed, but for now it's just a way for me to restart.
-  renderRestart() {
+  renderRestartMessage() {
     const message = 'This is the end of the sight words list! Would you like to restart?';
 
     if (confirm(message) === true) {
@@ -92,7 +99,7 @@ class SightWordsPanel extends React.Component {
   renderStartMode() {
     return (
       <div className="start-screen">
-        <div className="start-button" onClick={() => {this.updateStarted()}}>Start</div>
+        <div className="start-button button" onClick={() => {this.updateStarted()}}>Start</div>
         <ShuffleOption getClassNames={this.getShuffleClassNames()}
           onSelectToggleOption={() => {this.toggleShuffle()}} />
       </div>
@@ -102,12 +109,14 @@ class SightWordsPanel extends React.Component {
   renderWordMode() {
     return (
       <div className="grade-words">
-        <div className="word-wrapper">
-          <p className="word">{this.getWord()}</p>
-        </div>
+        <div className="word-wrapper">{this.getWord()}</div>
         <ShuffleOption getClassNames={this.getShuffleClassNames()}
           onSelectToggleOption={() => {this.toggleShuffle()}} />
-        <div className="next-button" onClick={() => {this.displayNextWord()}}>Next</div>
+        <div className="previous-button button"
+          onClick={() => {this.displayPreviousWord()}}>Previous</div>
+        <div className="next-button button" onClick={() => {this.displayNextWord()}}>Next</div>
+        <div className="restart-button button"
+          onClick={() => {this.resetSightWordsPanel()}}>Restart</div>
       </div>
     );
   }
