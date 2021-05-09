@@ -31,7 +31,7 @@
   "dependencies": {
     "css-loader": "^1.0.0",
     "knuth-shuffle": "1.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "style-loader": "^0.21.0",
